@@ -27,6 +27,32 @@ import Navigation from '../../components/Navigation';
 import Footer from '../../components/Footer';
 
 export default function OrganizationsPage() {
+    const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Traista for Organizations",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "description": "Free lost and found management software for airports, hotels, resorts, museums, and organizations.",
+        "featureList": [
+            "Custom branded links",
+            "Real-time notifications",
+            "Built-in communication",
+            "Integrated payments via Stripe",
+            "Shipping label generation",
+            "Dashboard management"
+        ],
+        "audience": {
+            "@type": "BusinessAudience",
+            "audienceType": ["Airports", "Hotels", "Resorts", "Museums", "Organizations"]
+        }
+    };
+
     // Sketch-style decorative items
     const laptopSketch = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 140'%3E%3Crect x='20' y='10' width='160' height='100' fill='none' stroke='%233f6ee3' stroke-width='3' rx='5'/%3E%3Crect x='10' y='110' width='180' height='20' fill='none' stroke='%233f6ee3' stroke-width='3' rx='3'/%3E%3Cline x1='100' y1='110' x2='100' y2='130' stroke='%233f6ee3' stroke-width='2'/%3E%3C/svg%3E`;
 
@@ -104,6 +130,10 @@ export default function OrganizationsPage() {
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <Navigation />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+            />
             <Box sx={{ bgcolor: '#ffffff', position: 'relative' }}>
                 {/* Decorative sketch items */}
                 <Box
@@ -268,11 +298,14 @@ export default function OrganizationsPage() {
                 {/* Hero Section */}
                 <Box
                     sx={{
-                        background: 'linear-gradient(180deg, #0044af 0%, #3f6ee3 50%, #0044af 100%)',
-                        pt: 12,
-                        pb: 8,
+                        background: 'linear-gradient(180deg, #0044af 0%, #3f6ee3 40%, #5c7fe8 80%, #0044af 100%)',
+                        pt: { xs: 16, md: 20 },
+                        pb: { xs: 12, md: 16 },
                         position: 'relative',
                         overflow: 'hidden',
+                        minHeight: { xs: '85vh', md: '90vh' },
+                        display: 'flex',
+                        alignItems: 'center',
                     }}
                 >
                     {/* Pattern overlay */}
@@ -287,20 +320,161 @@ export default function OrganizationsPage() {
                             opacity: 0.3,
                         }}
                     />
+                    {/* Radial overlays for depth */}
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            background: `
+                                radial-gradient(circle at 20% 30%, rgba(181, 32, 65, 0.15) 0%, transparent 40%),
+                                radial-gradient(circle at 80% 70%, rgba(124, 156, 255, 0.2) 0%, transparent 50%)
+                            `,
+                            opacity: 0.6,
+                        }}
+                    />
+
+                    {/* Decorative lost items in hero */}
+                    <Box
+                        component="img"
+                        src={`data:image/svg+xml,${encodeURIComponent(`
+                            <svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="10" y="5" width="80" height="55" rx="3" fill="none" stroke="rgba(255, 255, 255, 0.25)" stroke-width="2"/>
+                                <rect x="5" y="60" width="90" height="8" rx="2" fill="none" stroke="rgba(255, 255, 255, 0.2)" stroke-width="2"/>
+                                <rect x="20" y="15" width="60" height="40" rx="2" fill="none" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5"/>
+                            </svg>
+                        `)}`}
+                        alt=""
+                        sx={{
+                            position: 'absolute',
+                            top: { xs: '15%', md: '20%' },
+                            left: { xs: '5%', md: '8%' },
+                            width: { xs: '80px', md: '120px' },
+                            opacity: 0.5,
+                            animation: 'float 6s ease-in-out infinite',
+                            zIndex: 5,
+                            display: { xs: 'none', sm: 'block' },
+                        }}
+                    />
+                    <Box
+                        component="img"
+                        src={`data:image/svg+xml,${encodeURIComponent(`
+                            <svg viewBox="0 0 60 100" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="10" y="5" width="40" height="85" rx="8" fill="none" stroke="rgba(255, 255, 255, 0.3)" stroke-width="2"/>
+                                <rect x="15" y="15" width="30" height="60" rx="2" fill="none" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.5"/>
+                                <circle cx="30" cy="82" r="4" fill="none" stroke="rgba(255, 255, 255, 0.25)" stroke-width="1.5"/>
+                            </svg>
+                        `)}`}
+                        alt=""
+                        sx={{
+                            position: 'absolute',
+                            top: { xs: '60%', md: '65%' },
+                            right: { xs: '8%', md: '10%' },
+                            width: { xs: '45px', md: '60px' },
+                            opacity: 0.6,
+                            animation: 'float 5s ease-in-out infinite 1s',
+                            zIndex: 5,
+                        }}
+                    />
+                    <Box
+                        component="img"
+                        src={`data:image/svg+xml,${encodeURIComponent(`
+                            <svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="15" y="20" width="50" height="65" rx="8" fill="none" stroke="rgba(255, 255, 255, 0.28)" stroke-width="2"/>
+                                <rect x="25" y="30" width="30" height="35" rx="4" fill="none" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.5"/>
+                                <circle cx="28" cy="15" r="6" fill="none" stroke="rgba(255, 255, 255, 0.25)" stroke-width="1.5"/>
+                                <circle cx="52" cy="15" r="6" fill="none" stroke="rgba(255, 255, 255, 0.25)" stroke-width="1.5"/>
+                                <path d="M 28 15 Q 40 5 52 15" fill="none" stroke="rgba(255, 255, 255, 0.25)" stroke-width="2"/>
+                            </svg>
+                        `)}`}
+                        alt=""
+                        sx={{
+                            position: 'absolute',
+                            bottom: { xs: '15%', md: '20%' },
+                            left: { xs: '3%', md: '5%' },
+                            width: { xs: '60px', md: '85px' },
+                            opacity: 0.5,
+                            animation: 'float 7s ease-in-out infinite 2s',
+                            zIndex: 5,
+                            display: { xs: 'none', sm: 'block' },
+                        }}
+                    />
+                    <Box
+                        component="img"
+                        src={`data:image/svg+xml,${encodeURIComponent(`
+                            <svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg">
+                                <ellipse cx="30" cy="25" rx="22" ry="15" fill="none" stroke="rgba(255, 255, 255, 0.3)" stroke-width="2"/>
+                                <ellipse cx="90" cy="25" rx="22" ry="15" fill="none" stroke="rgba(255, 255, 255, 0.3)" stroke-width="2"/>
+                                <path d="M 52 25 Q 60 20 68 25" fill="none" stroke="rgba(255, 255, 255, 0.3)" stroke-width="2"/>
+                            </svg>
+                        `)}`}
+                        alt=""
+                        sx={{
+                            position: 'absolute',
+                            top: { xs: '35%', md: '40%' },
+                            right: { xs: '5%', md: '12%' },
+                            width: { xs: '70px', md: '95px' },
+                            opacity: 0.55,
+                            animation: 'float 6.5s ease-in-out infinite 1.5s',
+                            zIndex: 5,
+                            display: { xs: 'none', md: 'block' },
+                        }}
+                    />
+                    <Box
+                        component="img"
+                        src={`data:image/svg+xml,${encodeURIComponent(`
+                            <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="25" cy="25" r="15" fill="none" stroke="rgba(255, 255, 255, 0.25)" stroke-width="2"/>
+                                <circle cx="25" cy="25" r="8" fill="none" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.5"/>
+                                <line x1="35" y1="25" x2="70" y2="25" stroke="rgba(255, 255, 255, 0.25)" stroke-width="2"/>
+                                <line x1="42" y1="20" x2="42" y2="30" stroke="rgba(255, 255, 255, 0.25)" stroke-width="2"/>
+                                <line x1="52" y1="20" x2="52" y2="30" stroke="rgba(255, 255, 255, 0.25)" stroke-width="2"/>
+                            </svg>
+                        `)}`}
+                        alt=""
+                        sx={{
+                            position: 'absolute',
+                            bottom: { xs: '25%', md: '30%' },
+                            right: { xs: '10%', md: '6%' },
+                            width: { xs: '55px', md: '75px' },
+                            opacity: 0.5,
+                            animation: 'float 5.5s ease-in-out infinite 0.5s',
+                            zIndex: 5,
+                            display: { xs: 'none', sm: 'block' },
+                        }}
+                    />
+
                     <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
-                        <Box textAlign="center" mb={6}>
+                        <Box textAlign="center" mb={8}>
                             <Typography
-                                variant="h2"
+                                variant="h1"
                                 component="h1"
-                                fontWeight={700}
+                                fontWeight={800}
                                 gutterBottom
-                                sx={{ color: '#ffffff', textShadow: '0 2px 10px rgba(0,0,0,0.1)' }}
+                                sx={{
+                                    color: '#ffffff',
+                                    textShadow: '0 4px 20px rgba(0,0,0,0.2)',
+                                    fontSize: { xs: '2.75rem', sm: '3.5rem', md: '4.5rem' },
+                                    lineHeight: 1.15,
+                                    mb: 4,
+                                }}
                             >
                                 Empower Your Organization to Serve Better
                             </Typography>
                             <Typography
                                 variant="h5"
-                                sx={{ maxWidth: 800, mx: 'auto', mb: 4, color: 'rgba(255,255,255,0.95)' }}
+                                sx={{
+                                    maxWidth: 850,
+                                    mx: 'auto',
+                                    mb: 6,
+                                    color: 'rgba(255,255,255,0.98)',
+                                    fontSize: { xs: '1.15rem', sm: '1.35rem', md: '1.5rem' },
+                                    lineHeight: 1.7,
+                                    textShadow: '0 2px 10px rgba(0,0,0,0.15)',
+                                    px: { xs: 2, sm: 0 },
+                                }}
                             >
                                 Free software platform for airports, hotels, resorts, museums, and any organization
                                 that handles lost and found items
@@ -313,19 +487,19 @@ export default function OrganizationsPage() {
                                 sx={{
                                     bgcolor: '#ffffff',
                                     color: '#0044af',
-                                    px: 5,
-                                    py: 2,
-                                    fontSize: '1.1rem',
+                                    px: { xs: 5, md: 7 },
+                                    py: { xs: 2.5, md: 3 },
+                                    fontSize: { xs: '1.15rem', md: '1.3rem' },
                                     fontWeight: 700,
-                                    borderRadius: '8px',
+                                    borderRadius: '12px',
                                     textTransform: 'none',
-                                    boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+                                    boxShadow: '0 8px 30px rgba(0,0,0,0.25)',
                                     '&:hover': {
                                         bgcolor: '#f0f9ff',
-                                        transform: 'translateY(-2px)',
-                                        boxShadow: '0 6px 30px rgba(0,0,0,0.3)',
+                                        transform: 'translateY(-4px) scale(1.02)',
+                                        boxShadow: '0 12px 40px rgba(0,0,0,0.35)',
                                     },
-                                    transition: 'all 0.3s ease',
+                                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                                 }}
                             >
                                 Sign Up for Free

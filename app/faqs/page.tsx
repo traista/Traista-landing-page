@@ -25,6 +25,12 @@ export default function FAQsPage() {
         setExpanded(isExpanded ? panel : false);
     };
 
+    const faqStructuredData = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": []
+    };
+
     // Sketch-style decorative items
     const phoneSketch = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 140'%3E%3Crect x='10' y='10' width='60' height='120' fill='none' stroke='%2310b981' stroke-width='2.5' rx='8'/%3E%3Ccircle cx='40' cy='115' r='8' fill='none' stroke='%2310b981' stroke-width='2'/%3E%3Cline x1='30' y1='25' x2='50' y2='25' stroke='%2310b981' stroke-width='2'/%3E%3C/svg%3E`;
 
