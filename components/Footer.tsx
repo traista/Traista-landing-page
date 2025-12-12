@@ -29,7 +29,7 @@ export default function Footer() {
             <Container maxWidth="lg">
                 <Grid container spacing={4}>
                     <Grid item xs={12} md={4}>
-                        <Typography variant="h5" gutterBottom fontWeight={700}>
+                        <Typography variant="h6" gutterBottom fontWeight={700}>
                             Traista
                         </Typography>
                         <Typography variant="body2" sx={{ mb: 2 }}>
@@ -72,51 +72,65 @@ export default function Footer() {
                     </Grid>
 
                     <Grid item xs={12} sm={6} md={2}>
-                        <Typography variant="h6" gutterBottom fontWeight={600}>
+                        <Typography variant="subtitle1" gutterBottom fontWeight={600} sx={{ fontSize: '0.875rem' }}>
                             Quick Links
                         </Typography>
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                            <Link href="#home" color="inherit" underline="hover">
-                                Home
+                            <Link href="https://portal.traista.com" color="inherit" underline="hover" target="_blank" sx={{ fontSize: '0.8125rem' }}>
+                                Track Claim
                             </Link>
-                            <Link href="#how-it-works" color="inherit" underline="hover">
+                            <Link href="https://portal.traista.com/claim" color="inherit" underline="hover" target="_blank" sx={{ fontSize: '0.8125rem' }}>
+                                File Claim
+                            </Link>
+                            <Link href="#how-it-works" color="inherit" underline="hover" sx={{ fontSize: '0.8125rem' }}>
                                 How It Works
-                            </Link>
-                            <Link href="#about" color="inherit" underline="hover">
-                                About Us
-                            </Link>
-                            <Link href="https://portal.traista.com/claim" color="inherit" underline="hover" target="_blank">
-                                My Claim
                             </Link>
                         </Box>
                     </Grid>
 
-                    <Grid item xs={12} sm={6} md={3}>
-                        <Typography variant="h6" gutterBottom fontWeight={600}>
+                    <Grid item xs={12} sm={6} md={2}>
+                        <Typography variant="subtitle1" gutterBottom fontWeight={600} sx={{ fontSize: '0.875rem' }}>
+                            Organizations
+                        </Typography>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                            <Link href="https://portal.traista.com/account/signin" color="inherit" underline="hover" target="_blank" sx={{ fontSize: '0.8125rem' }}>
+                                Sign In/Sign Up
+                            </Link>
+                            <Link href="/organizations" color="inherit" underline="hover" sx={{ fontSize: '0.8125rem' }}>
+                                Find More
+                            </Link>
+                            <Link href="/faqs-orgs" color="inherit" underline="hover" sx={{ fontSize: '0.8125rem' }}>
+                                FAQs
+                            </Link>
+                        </Box>
+                    </Grid>
+
+                    <Grid item xs={12} sm={6} md={2}>
+                        <Typography variant="subtitle1" gutterBottom fontWeight={600} sx={{ fontSize: '0.875rem' }}>
                             Resources
                         </Typography>
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                            <Link href="/faqs" color="inherit" underline="hover">
+                            <Link href="/faqs" color="inherit" underline="hover" sx={{ fontSize: '0.8125rem' }}>
                                 FAQs
                             </Link>
-                            <Link href="#contact" color="inherit" underline="hover">
-                                Contact Us
+                            <Link href="#about" color="inherit" underline="hover" sx={{ fontSize: '0.8125rem' }}>
+                                About Us
                             </Link>
-                            <Link href="/organizations" color="inherit" underline="hover">
-                                Organizations
+                            <Link href="#contact" color="inherit" underline="hover" sx={{ fontSize: '0.8125rem' }}>
+                                Contact Us
                             </Link>
                         </Box>
                     </Grid>
 
-                    <Grid item xs={12} md={3}>
-                        <Typography variant="h6" gutterBottom fontWeight={600}>
+                    <Grid item xs={12} sm={6} md={2}>
+                        <Typography variant="subtitle1" gutterBottom fontWeight={600} sx={{ fontSize: '0.875rem' }}>
                             Legal
                         </Typography>
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                            <Link href="https://traista.com/privacy-policy/" color="inherit" underline="hover" target="_blank">
+                            <Link href="https://traista.com/privacy-policy/" color="inherit" underline="hover" target="_blank" sx={{ fontSize: '0.8125rem' }}>
                                 Privacy Policy
                             </Link>
-                            <Link href="https://traista.com/terms-and-conditions-tos/" color="inherit" underline="hover" target="_blank">
+                            <Link href="https://traista.com/terms-and-conditions-tos/" color="inherit" underline="hover" target="_blank" sx={{ fontSize: '0.8125rem' }}>
                                 Terms & Conditions
                             </Link>
                         </Box>
