@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     AppBar,
     Toolbar,
@@ -18,6 +18,8 @@ import {
     useTheme,
     Menu,
     MenuItem,
+    Slide,
+    useScrollTrigger,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
@@ -34,6 +36,40 @@ const organizationsSubmenu = [
     { label: 'How It Works', href: '/organizations' },
     { label: 'FAQs', href: '/faqs-orgs' },
 ];
+
+interface HideOnScrollProps {
+    children: React.ReactElement;
+}
+
+function HideOnScroll({ children }: HideOnScrollProps) {
+    const [lastScrollY, setLastScrollY] = useState(0);
+    const [show, setShow] = useState(true);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY < 10) {
+                setShow(true);
+            } else if (currentScrollY > lastScrollY) {
+                setShow(false);
+            } else {
+                setShow(true);
+            }
+
+            setLastScrollY(currentScrollY);
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [lastScrollY]);
+
+    return (
+        <Slide appear={false} direction="down" in={show}>
+            {children}
+        </Slide>
+    );
+}
 
 export default function Navigation() {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -94,7 +130,21 @@ export default function Navigation() {
     const drawer = (
         <Box sx={{ width: 280, bgcolor: '#fafafa', height: '100%' }} role="presentation">
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2.5, bgcolor: '#ffffff', borderBottom: '1px solid #e0e0e0' }}>
-                <Typography variant="h6" sx={{ fontWeight: 700, color: 'primary.main' }}>
+                <Typography
+                    variant="h6"
+                    sx={{
+                        fontWeight: 700,
+                        color: 'primary.main',
+                        cursor: 'pointer',
+                        '&:hover': {
+                            opacity: 0.8,
+                        }
+                    }}
+                    onClick={() => {
+                        handleDrawerToggle();
+                        handleNavClick('/');
+                    }}
+                >
                     Traista
                 </Typography>
                 <IconButton onClick={handleDrawerToggle} sx={{ color: 'text.secondary' }}>
@@ -217,80 +267,48 @@ export default function Navigation() {
 
     return (
         <>
-            <AppBar position="sticky" elevation={2} sx={{ bgcolor: 'white', color: 'primary.main' }}>
-                <Container maxWidth="lg">
-                    <Toolbar disableGutters>
-                        <Box
-                            component="a"
-                            href="/"
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 1.5,
-                                flexGrow: isMobile ? 1 : 0,
-                                mr: 4,
-                                textDecoration: 'none',
-                            }}
-                        >
+            <HideOnScroll>
+                <AppBar position="fixed" elevation={2} sx={{ bgcolor: 'white', color: 'primary.main' }}>
+                    <Container maxWidth="lg">
+                        <Toolbar disableGutters sx={{ py: 1.5 }}>
                             <Box
-                                component="img"
-                                src="/logo.png"
-                                alt="Traista Logo"
+                                component="a"
+                                href="/"
                                 sx={{
-                                    height: 36,
-                                    width: 36,
-                                }}
-                            />
-                            <Typography
-                                variant="h5"
-                                sx={{
-                                    fontWeight: 700,
-                                    color: 'primary.main',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 1.5,
+                                    flexGrow: isMobile ? 1 : 0,
+                                    mr: 4,
+                                    textDecoration: 'none',
                                 }}
                             >
-                                Traista
-                            </Typography>
-                        </Box>
+                                <Box
+                                    component="img"
+                                    src="/logo.png"
+                                    alt="Traista Logo"
+                                    sx={{
+                                        height: 36,
+                                        width: 36,
+                                    }}
+                                />
+                                <Typography
+                                    variant="h5"
+                                    sx={{
+                                        fontWeight: 700,
+                                        color: 'primary.main',
+                                    }}
+                                >
+                                    Traista
+                                </Typography>
+                            </Box>
 
-                        {!isMobile ? (
-                            <>
-                                <Box sx={{ flexGrow: 1, display: 'flex', gap: 0.5 }}>
-                                    <Button
-                                        onClick={handleClick}
-                                        endIcon={<KeyboardArrowDownIcon />}
-                                        sx={{
-                                            color: 'text.primary',
-                                            fontWeight: 600,
-                                            fontSize: '0.95rem',
-                                            px: 2,
-                                            position: 'relative',
-                                            '&:hover': {
-                                                bgcolor: 'transparent',
-                                                color: 'primary.main',
-                                            },
-                                            '&::after': {
-                                                content: '""',
-                                                position: 'absolute',
-                                                bottom: 8,
-                                                left: '50%',
-                                                transform: 'translateX(-50%)',
-                                                width: open ? '70%' : 0,
-                                                height: '3px',
-                                                bgcolor: 'primary.main',
-                                                borderRadius: '3px',
-                                                transition: 'width 0.3s ease',
-                                            },
-                                            '&:hover::after': {
-                                                width: '70%',
-                                            },
-                                        }}
-                                    >
-                                        Organizations
-                                    </Button>
-                                    {navItems.map((item) => (
+                            {!isMobile ? (
+                                <>
+                                    <Box sx={{ flexGrow: 1, display: 'flex', gap: 0.5 }}>
                                         <Button
-                                            key={item.label}
-                                            onClick={() => handleNavClick(item.href)}
+                                            onClick={handleClick}
+                                            endIcon={<KeyboardArrowDownIcon />}
                                             sx={{
                                                 color: 'text.primary',
                                                 fontWeight: 600,
@@ -307,7 +325,7 @@ export default function Navigation() {
                                                     bottom: 8,
                                                     left: '50%',
                                                     transform: 'translateX(-50%)',
-                                                    width: 0,
+                                                    width: open ? '70%' : 0,
                                                     height: '3px',
                                                     bgcolor: 'primary.main',
                                                     borderRadius: '3px',
@@ -318,105 +336,139 @@ export default function Navigation() {
                                                 },
                                             }}
                                         >
-                                            {item.label}
+                                            Organizations
                                         </Button>
-                                    ))}
-                                </Box>
-                                <Menu
-                                    anchorEl={anchorEl}
-                                    open={open}
-                                    onClose={handleClose}
-                                    MenuListProps={{
-                                        'aria-labelledby': 'organizations-button',
-                                    }}
-                                    sx={{
-                                        '& .MuiPaper-root': {
-                                            borderRadius: '8px',
-                                            boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-                                            mt: 1,
-                                        },
-                                    }}
-                                >
-                                    {organizationsSubmenu.map((item) => (
-                                        <MenuItem
-                                            key={item.label}
-                                            onClick={() => handleSubmenuClick(item.href)}
+                                        {navItems.map((item) => (
+                                            <Button
+                                                key={item.label}
+                                                onClick={() => handleNavClick(item.href)}
+                                                sx={{
+                                                    color: 'text.primary',
+                                                    fontWeight: 600,
+                                                    fontSize: '0.95rem',
+                                                    px: 2,
+                                                    position: 'relative',
+                                                    '&:hover': {
+                                                        bgcolor: 'transparent',
+                                                        color: 'primary.main',
+                                                    },
+                                                    '&::after': {
+                                                        content: '""',
+                                                        position: 'absolute',
+                                                        bottom: 8,
+                                                        left: '50%',
+                                                        transform: 'translateX(-50%)',
+                                                        width: 0,
+                                                        height: '3px',
+                                                        bgcolor: 'primary.main',
+                                                        borderRadius: '3px',
+                                                        transition: 'width 0.3s ease',
+                                                    },
+                                                    '&:hover::after': {
+                                                        width: '70%',
+                                                    },
+                                                }}
+                                            >
+                                                {item.label}
+                                            </Button>
+                                        ))}
+                                    </Box>
+                                    <Menu
+                                        anchorEl={anchorEl}
+                                        open={open}
+                                        onClose={handleClose}
+                                        MenuListProps={{
+                                            'aria-labelledby': 'organizations-button',
+                                        }}
+                                        sx={{
+                                            '& .MuiPaper-root': {
+                                                borderRadius: '8px',
+                                                boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                                                mt: 1,
+                                            },
+                                        }}
+                                    >
+                                        {organizationsSubmenu.map((item) => (
+                                            <MenuItem
+                                                key={item.label}
+                                                onClick={() => handleSubmenuClick(item.href)}
+                                                sx={{
+                                                    py: 1.5,
+                                                    px: 3,
+                                                    '&:hover': {
+                                                        bgcolor: '#f0f9ff',
+                                                        color: 'primary.main',
+                                                    },
+                                                }}
+                                            >
+                                                {item.label}
+                                            </MenuItem>
+                                        ))}
+                                    </Menu>
+                                    <Box sx={{ display: 'flex', gap: 2 }}>
+                                        <Button
+                                            variant="outlined"
+                                            onClick={() => window.open('https://portal.traista.com/claim', '_blank')}
                                             sx={{
-                                                py: 1.5,
+                                                borderRadius: '8px',
+                                                fontWeight: 700,
                                                 px: 3,
+                                                borderWidth: '2px',
                                                 '&:hover': {
-                                                    bgcolor: '#f0f9ff',
-                                                    color: 'primary.main',
+                                                    borderWidth: '2px',
+                                                    transform: 'translateY(-2px)',
+                                                    boxShadow: '0 4px 12px rgba(63, 110, 227, 0.2)',
                                                 },
+                                                transition: 'all 0.3s ease',
                                             }}
                                         >
-                                            {item.label}
-                                        </MenuItem>
-                                    ))}
-                                </Menu>
-                                <Box sx={{ display: 'flex', gap: 2 }}>
-                                    <Button
-                                        variant="outlined"
-                                        onClick={() => window.open('https://portal.traista.com/claim', '_blank')}
-                                        sx={{
-                                            borderRadius: '8px',
-                                            fontWeight: 700,
-                                            px: 3,
-                                            borderWidth: '2px',
-                                            '&:hover': {
-                                                borderWidth: '2px',
-                                                transform: 'translateY(-2px)',
-                                                boxShadow: '0 4px 12px rgba(63, 110, 227, 0.2)',
-                                            },
-                                            transition: 'all 0.3s ease',
-                                        }}
-                                    >
-                                        File New Claim
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        onClick={() => window.open('https://portal.traista.com', '_blank')}
-                                        sx={{
-                                            borderRadius: '8px',
-                                            fontWeight: 700,
-                                            px: 3,
-                                            boxShadow: '0 4px 12px rgba(63, 110, 227, 0.3)',
-                                            '&:hover': {
-                                                transform: 'translateY(-2px)',
-                                                boxShadow: '0 6px 20px rgba(63, 110, 227, 0.4)',
-                                            },
-                                            transition: 'all 0.3s ease',
-                                        }}
-                                    >
-                                        Track My Claim
-                                    </Button>
-                                </Box>
-                            </>
-                        ) : (
-                            <IconButton
-                                color="inherit"
-                                aria-label="open drawer"
-                                edge="end"
-                                onClick={handleDrawerToggle}
-                                sx={{
-                                    bgcolor: '#f0f4ff',
-                                    color: 'primary.main',
-                                    borderRadius: '8px',
-                                    width: 48,
-                                    height: 48,
-                                    '&:hover': {
-                                        bgcolor: '#e3f2fd',
-                                        transform: 'scale(1.05)',
-                                    },
-                                    transition: 'all 0.2s ease',
-                                }}
-                            >
-                                <MenuIcon sx={{ fontSize: 28 }} />
-                            </IconButton>
-                        )}
-                    </Toolbar>
-                </Container>
-            </AppBar>
+                                            File New Claim
+                                        </Button>
+                                        <Button
+                                            variant="contained"
+                                            onClick={() => window.open('https://portal.traista.com', '_blank')}
+                                            sx={{
+                                                borderRadius: '8px',
+                                                fontWeight: 700,
+                                                px: 3,
+                                                boxShadow: '0 4px 12px rgba(63, 110, 227, 0.3)',
+                                                '&:hover': {
+                                                    transform: 'translateY(-2px)',
+                                                    boxShadow: '0 6px 20px rgba(63, 110, 227, 0.4)',
+                                                },
+                                                transition: 'all 0.3s ease',
+                                            }}
+                                        >
+                                            Track My Claim
+                                        </Button>
+                                    </Box>
+                                </>
+                            ) : (
+                                <IconButton
+                                    color="inherit"
+                                    aria-label="open drawer"
+                                    edge="end"
+                                    onClick={handleDrawerToggle}
+                                    sx={{
+                                        bgcolor: '#f0f4ff',
+                                        color: 'primary.main',
+                                        borderRadius: '8px',
+                                        width: 48,
+                                        height: 48,
+                                        '&:hover': {
+                                            bgcolor: '#e3f2fd',
+                                            transform: 'scale(1.05)',
+                                        },
+                                        transition: 'all 0.2s ease',
+                                    }}
+                                >
+                                    <MenuIcon sx={{ fontSize: 28 }} />
+                                </IconButton>
+                            )}
+                        </Toolbar>
+                    </Container>
+                </AppBar>
+            </HideOnScroll>
 
             <Drawer
                 anchor="right"

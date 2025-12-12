@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Container, Typography, Button, Grid, keyframes } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import BusinessIcon from '@mui/icons-material/Business';
@@ -44,6 +44,17 @@ const rotate = keyframes`
 `;
 
 export default function HeroSection() {
+    const [scrollY, setScrollY] = useState(0);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrollY(window.scrollY);
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     return (
         <Box
             id="home"
@@ -55,6 +66,7 @@ export default function HeroSection() {
                 background: 'linear-gradient(135deg, #0044af 0%, #3f6ee3 50%, #7c9cff 100%)',
                 color: 'white',
                 overflow: 'hidden',
+                pt: { xs: '64px', md: '80px' },
                 '&::before': {
                     content: '""',
                     position: 'absolute',
@@ -103,6 +115,8 @@ export default function HeroSection() {
                     opacity: 0.7,
                     animation: `${float} 4s ease-in-out infinite`,
                     pointerEvents: 'none',
+                    transform: `translateY(${scrollY * 0.15}px)`,
+                    transition: 'transform 0.1s ease-out',
                 }}
             />
             {/* Small Phone Sketch */}
@@ -124,6 +138,8 @@ export default function HeroSection() {
                     opacity: 0.7,
                     animation: `${rotate} 20s linear infinite`,
                     pointerEvents: 'none',
+                    transform: `translateY(${scrollY * -0.2}px)`,
+                    transition: 'transform 0.1s ease-out',
                 }}
             />
             {/* Medium Backpack Sketch */}
@@ -147,6 +163,8 @@ export default function HeroSection() {
                     opacity: 0.7,
                     animation: `${pulse} 3s ease-in-out infinite`,
                     pointerEvents: 'none',
+                    transform: `translateY(${scrollY * 0.25}px)`,
+                    transition: 'transform 0.1s ease-out',
                 }}
             />
             {/* Large Wallet Sketch */}
@@ -168,6 +186,8 @@ export default function HeroSection() {
                     opacity: 0.6,
                     animation: `${float} 5s ease-in-out infinite 0.5s`,
                     pointerEvents: 'none',
+                    transform: `translateY(${scrollY * -0.18}px)`,
+                    transition: 'transform 0.1s ease-out',
                 }}
             />
             {/* Medium ID Card Sketch */}
@@ -191,6 +211,8 @@ export default function HeroSection() {
                     opacity: 0.65,
                     animation: `${rotate} 25s linear infinite reverse`,
                     pointerEvents: 'none',
+                    transform: `translateY(${scrollY * 0.22}px)`,
+                    transition: 'transform 0.1s ease-out',
                 }}
             />
             {/* Small Keys Sketch */}
@@ -214,6 +236,8 @@ export default function HeroSection() {
                     opacity: 0.6,
                     animation: `${pulse} 4s ease-in-out infinite 1s`,
                     pointerEvents: 'none',
+                    transform: `translateY(${scrollY * -0.12}px)`,
+                    transition: 'transform 0.1s ease-out',
                 }}
             />
             {/* Sunglasses Sketch */}
@@ -236,6 +260,8 @@ export default function HeroSection() {
                     opacity: 0.65,
                     animation: `${float} 6s ease-in-out infinite 1.5s`,
                     pointerEvents: 'none',
+                    transform: `translateY(${scrollY * 0.18}px)`,
+                    transition: 'transform 0.1s ease-out',
                 }}
             />
             {/* Watch Sketch */}
@@ -259,6 +285,8 @@ export default function HeroSection() {
                     opacity: 0.6,
                     animation: `${rotate} 30s linear infinite`,
                     pointerEvents: 'none',
+                    transform: `translateY(${scrollY * -0.1}px)`,
+                    transition: 'transform 0.1s ease-out',
                 }}
             />
             {/* Headphones Sketch */}
@@ -281,6 +309,8 @@ export default function HeroSection() {
                     opacity: 0.65,
                     animation: `${pulse} 5s ease-in-out infinite 2s`,
                     pointerEvents: 'none',
+                    transform: `translateY(${scrollY * 0.2}px)`,
+                    transition: 'transform 0.1s ease-out',
                 }}
             />
             {/* Passport Sketch */}
@@ -304,6 +334,8 @@ export default function HeroSection() {
                     opacity: 0.6,
                     animation: `${float} 7s ease-in-out infinite 0.8s`,
                     pointerEvents: 'none',
+                    transform: `translateY(${scrollY * -0.16}px)`,
+                    transition: 'transform 0.1s ease-out',
                 }}
             />
             {/* Camera Sketch */}
@@ -326,6 +358,8 @@ export default function HeroSection() {
                     opacity: 0.65,
                     animation: `${rotate} 35s linear infinite reverse`,
                     pointerEvents: 'none',
+                    transform: `translateY(${scrollY * 0.14}px)`,
+                    transition: 'transform 0.1s ease-out',
                 }}
             />
             <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, py: { xs: 6, md: 8 }, px: { xs: 3, sm: 3, md: 3 } }}>
