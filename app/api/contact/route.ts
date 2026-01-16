@@ -152,7 +152,7 @@ Submitted from Traista Landing Page Contact Form
         await transporter.sendMail({
             from: `${process.env.SMTP_FROM_NAME || 'Traista'} <${process.env.SMTP_FROM_EMAIL || 'no-reply@traista.com'}>`,
             replyTo: email,
-            to: process.env.CONTACT_RECIPIENT_EMAIL || "support@traista.com",
+            to: "support@traista.com",
             subject: `Traista Contact Form - ${subject}`,
             text: textContent,
             html: htmlContent,
