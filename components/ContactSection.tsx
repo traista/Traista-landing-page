@@ -6,12 +6,14 @@ import EmailIcon from '@mui/icons-material/Email';
 import MessageIcon from '@mui/icons-material/Message';
 import PersonIcon from '@mui/icons-material/Person';
 import SubjectIcon from '@mui/icons-material/Subject';
+import BusinessIcon from '@mui/icons-material/Business';
 import SendIcon from '@mui/icons-material/Send';
 
 export default function ContactSection() {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
+        company: '',
         subject: '',
         message: '',
     });
@@ -19,11 +21,13 @@ export default function ContactSection() {
     const [errors, setErrors] = useState({
         name: '',
         email: '',
+        company: '',
         subject: '',
         message: '',
     });
 
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const validateEmail = (email: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -49,6 +53,7 @@ export default function ContactSection() {
         const newErrors = {
             name: '',
             email: '',
+            company: '',
             subject: '',
             message: '',
         };
@@ -71,6 +76,8 @@ export default function ContactSection() {
             isValid = false;
         }
 
+        // Company is optional, no validation needed
+
         if (!formData.subject.trim()) {
             newErrors.subject = 'Subject is required';
             isValid = false;
@@ -91,21 +98,46 @@ export default function ContactSection() {
         return isValid;
     };
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
         if (validateForm()) {
-            // Here you would typically send the form data to your backend
-            console.log('Form submitted:', formData);
-            setSubmitStatus('success');
+            setIsSubmitting(true);
+            setSubmitStatus('idle');
 
-            // Reset form after successful submission
-            setFormData({
-                name: '',
-                email: '',
-                subject: '',
-                message: '',
-            });
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: formData.name,
+                        email: formData.email,
+                        company: formData.company,
+                        subject: formData.subject,
+                        message: formData.message,
+                    }),
+                });
+
+                if (response.ok) {
+                    setSubmitStatus('success');
+                    // Reset form after successful submission
+                    setFormData({
+                        name: '',
+                        email: '',
+                        company: '',
+                        subject: '',
+                        message: '',
+                    });
+                } else {
+                    setSubmitStatus('error');
+                }
+            } catch (error) {
+                setSubmitStatus('error');
+            } finally {
+                setIsSubmitting(false);
+            }
         } else {
             setSubmitStatus('error');
         }
@@ -207,6 +239,7 @@ export default function ContactSection() {
                                 label="Name"
                                 variant="outlined"
                                 required
+                                disabled={isSubmitting}
                                 value={formData.name}
                                 onChange={handleChange('name')}
                                 error={!!errors.name}
@@ -232,6 +265,7 @@ export default function ContactSection() {
                                 label="Email"
                                 type="email"
                                 variant="outlined"
+                                disabled={isSubmitting}
                                 required
                                 value={formData.email}
                                 onChange={handleChange('email')}
@@ -255,9 +289,35 @@ export default function ContactSection() {
                         <Grid item xs={12}>
                             <TextField
                                 fullWidth
+                                label="Company"
+                                variant="outlined"
+                                disabled={isSubmitting}
+                                value={formData.company}
+                                onChange={handleChange('company')}
+                                error={!!errors.company}
+                                helperText={errors.company}
+                                InputProps={{
+                                    startAdornment: <BusinessIcon sx={{ mr: 1, color: 'action.active' }} />,
+                                }}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        bgcolor: 'white',
+                                        '&:hover': {
+                                            '& .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: 'primary.main',
+                                            },
+                                        },
+                                    },
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                fullWidth
                                 label="Subject"
                                 variant="outlined"
                                 required
+                                disabled={isSubmitting}
                                 value={formData.subject}
                                 onChange={handleChange('subject')}
                                 error={!!errors.subject}
@@ -285,13 +345,11 @@ export default function ContactSection() {
                                 rows={6}
                                 variant="outlined"
                                 required
+                                disabled={isSubmitting}
                                 value={formData.message}
                                 onChange={handleChange('message')}
                                 error={!!errors.message}
                                 helperText={errors.message}
-                                InputProps={{
-                                    startAdornment: <MessageIcon sx={{ mr: 1, color: 'action.active', alignSelf: 'flex-start', mt: 2 }} />,
-                                }}
                                 sx={{
                                     '& .MuiOutlinedInput-root': {
                                         bgcolor: 'white',
@@ -310,6 +368,7 @@ export default function ContactSection() {
                                 variant="contained"
                                 size="large"
                                 fullWidth
+                                disabled={isSubmitting}
                                 endIcon={<SendIcon />}
                                 sx={{
                                     py: 1.8,
@@ -324,7 +383,7 @@ export default function ContactSection() {
                                     transition: 'all 0.3s',
                                 }}
                             >
-                                Send Message
+                                {isSubmitting ? 'Sending...' : 'Send Message'}
                             </Button>
                         </Grid>
                     </Grid>
