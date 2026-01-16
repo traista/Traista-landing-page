@@ -199,6 +199,23 @@ export default function ContactSection() {
                     >
                         Questions? Feedback? We'd love to hear from you
                     </Typography>
+                    <Typography
+                        variant="body1"
+                        align="center"
+                        sx={{
+                            mt: 3,
+                            px: { xs: 2, md: 4 },
+                            fontSize: { xs: '0.95rem', md: '1.05rem' },
+                            color: 'text.primary',
+                            fontWeight: 500,
+                            background: 'linear-gradient(135deg, #3F6EE3 0%, #10B981 100%)',
+                            backgroundClip: 'text',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                        }}
+                    >
+                        Organizations: Interested in a demo? Get in touch to see how Traista can transform your business!
+                    </Typography>
                 </Box>
 
                 {submitStatus === 'success' && (
